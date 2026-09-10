@@ -1,0 +1,30 @@
+name: C++ CI for MapReduce Project
+
+on: [push, pull_request]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up C++ environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++ make sort file
+
+    - name: Build the project
+      run: make -C . all
+
+    - name: Make run_locally.sh executable
+      run: chmod +x run_locally.sh
+
+    - name: Run MapReduce script
+      run: ./run_locally.sh
+
+    - name: Build and run tests
+      run: |
+        make -f Makefile.test all
+        ./bin/test
