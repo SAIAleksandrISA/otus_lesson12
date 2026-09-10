@@ -1,18 +1,18 @@
-.PHONY: all clean
+BIN_DIR = bin
 
-all: bin/mapper bin/reducer_mean bin/reducer_variance
+all: $(BIN_DIR)/mapper $(BIN_DIR)/reducer_mean $(BIN_DIR)/reducer_variance
 
-bin/mapper: mapper.cpp
-	if not exist bin mkdir bin
+$(BIN_DIR)/mapper: mapper.cpp | $(BIN_DIR)
 	g++ -o $@ mapper.cpp
 
-bin/reducer_mean: reducer_mean.cpp
-	if not exist bin mkdir bin
+$(BIN_DIR)/reducer_mean: reducer_mean.cpp | $(BIN_DIR)
 	g++ -o $@ reducer_mean.cpp
 
-bin/reducer_variance: reducer_variance.cpp
-	if not exist bin mkdir bin
+$(BIN_DIR)/reducer_variance: reducer_variance.cpp | $(BIN_DIR)
 	g++ -o $@ reducer_variance.cpp
 
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
+
 clean:
-	rm -rf bin output
+	rm -rf $(BIN_DIR)

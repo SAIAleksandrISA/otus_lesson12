@@ -1,11 +1,15 @@
+BIN_DIR = bin
+
 .PHONY: all clean
 
-all: bin/test
+all: $(BIN_DIR)/test
 
-bin/test: test.cpp
-	if not exist bin mkdir bin
+$(BIN_DIR)/test: test.cpp | $(BIN_DIR)
 	g++ -o $@ test.cpp
 	./$@
 
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
+
 clean:
-	rm -rf bin
+	rm -rf $(BIN_DIR)
